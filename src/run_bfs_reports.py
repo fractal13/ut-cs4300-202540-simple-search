@@ -40,10 +40,10 @@ def print_report(start: WolfGoatCabbageState, goal: WolfGoatCabbageState | None 
 
 def main():
     starts = [
+        # three valid starting states (farmer,wolf,goat,cabbage)
         WolfGoatCabbageState(True, True, True, True),
-        # example other starts: farmer left, others right
-        WolfGoatCabbageState(True, False, False, False),
-        WolfGoatCabbageState(False, True, True, True),
+        WolfGoatCabbageState(False, False, False, True),
+        WolfGoatCabbageState(False, True, False, True),
     ]
     for s in starts:
         if not s.is_valid():
