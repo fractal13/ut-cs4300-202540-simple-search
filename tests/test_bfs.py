@@ -92,3 +92,20 @@ def test_bfs_stats_returned():
     assert stats.solution_depth == len(path) - 1
     assert stats.solution_cost is not None
 
+
+def test_bfs_rejects_invalid_states():
+    """This test asserts that bfs should NOT include invalid WolfGoatCabbage states.
+
+    The current implementation does include invalid states; this test will fail until bfs is
+    updated to filter them. The test constructs a problem where an action leads to an invalid
+    intermediate state, and asserts that the returned path contains only valid states.
+    """
+    # create a problem where start is valid but one action produces an invalid state
+    start = WolfGoatCabbageState(True, True, True, True)
+    goal = WolfGoatCabbageState(False, False, False, False)
+    prob = WolfGoatCabbageProblem(start=start, goal=goal)
+    path = bfs(prob)
+    # assert all states in path are valid; if bfs allows invalid states this will fail
+    for s, _ in path:
+        assert s.is_valid(), f"Found invalid state in path: {s}"
+
