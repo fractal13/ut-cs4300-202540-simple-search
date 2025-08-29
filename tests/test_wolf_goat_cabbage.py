@@ -1,23 +1,28 @@
 import sys
 from pathlib import Path
+import itertools
+import pytest
+
+# Quick test-time fix: make src importable
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from wolf_goat_cabbage import WolfGoatCabbageState, WolfGoatCabbageProblem
 
 
-def test_state_validity():
-    s = WolfGoatCabbageState(True, True, True, True)
-    assert s.is_valid()
-
-    # goat with wolf without farmer -> invalid
-    s2 = WolfGoatCabbageState(False, False, True, True)
-    assert not s2.is_valid()
-
-    # goat with cabbage without farmer -> invalid
-    s3 = WolfGoatCabbageState(False, True, True, False)
-    assert not s3.is_valid()
+def all_states():
+    for farmer, wolf, goat, cabbage in itertools.product([False, True], repeat=4):
+        yield WolfGoatCabbageState(farmer, wolf, goat, cabbage)
 
 
-def test_actions_and_transition():
+def test_state_validity_all_states():
+    # enumerate all 16 states and check validity matches rules
+    for s in all_states():
+        goat_with_wolf = (s.goat == s.wolf) and (s.goat != s.farmer)
+        goat_with_cabbage = (s.goat == s.cabbage) and (s.goat != s.farmer)
+        expected_valid = not (goat_with_wolf or goat_with_cabbage)
+        assert s.is_valid() == expected_valid, f"State {s} validity mismatch"
+
+
+def test_actions_and_transition_pytest_style():
     prob = WolfGoatCabbageProblem()
     s = prob.start
     actions = prob.Actions(s)
@@ -30,9 +35,9 @@ def test_actions_and_transition():
     assert s2.farmer != s.farmer
 
 
-def test_goal_and_cost():
+def test_goal_and_cost_pytest_style():
     prob = WolfGoatCabbageProblem()
     assert not prob.GoalTest(prob.start)
     assert prob.GoalTest(prob.goal)
     c = prob.Cost(prob.start, "cross_alone", prob.goal)
-    assert c == 1.0
+    assert c == pytest.approx(1.0)
