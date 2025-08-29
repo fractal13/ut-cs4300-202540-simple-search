@@ -22,6 +22,13 @@ class WolfGoatCabbageState:
         return (self.farmer, self.wolf, self.goat, self.cabbage)
 
 
+# action constants
+CROSS_ALONE = "cross_alone"
+TAKE_WOLF = "take_wolf"
+TAKE_GOAT = "take_goat"
+TAKE_CABBAGE = "take_cabbage"
+
+
 class WolfGoatCabbageProblem:
     def __init__(self, start: WolfGoatCabbageState | None = None, goal: WolfGoatCabbageState | None = None):
         self.start = start or WolfGoatCabbageState(True, True, True, True)
@@ -49,12 +56,6 @@ class WolfGoatCabbageProblem:
         f, w, g, c = s.as_tuple()
         new_f = not f
         new_w, new_g, new_c = w, g, c
-        # action constants (reuse same strings as in Actions)
-        CROSS_ALONE = "cross_alone"
-        TAKE_WOLF = "take_wolf"
-        TAKE_GOAT = "take_goat"
-        TAKE_CABBAGE = "take_cabbage"
-
         if a == CROSS_ALONE:
             pass
         elif a == TAKE_WOLF:
