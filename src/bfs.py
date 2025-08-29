@@ -51,6 +51,9 @@ def bfs(problem, return_stats: bool = False) -> List[Tuple[Any, Optional[str]]]:
         for action in problem.Actions(node.state):
             child_state = problem.Transition(node.state, action)
             stats.nodes_generated += 1
+            # skip invalid states if state has is_valid method
+            if hasattr(child_state, "is_valid") and not child_state.is_valid():
+                continue
             if child_state in explored:
                 continue
             # also avoid duplicates in frontier

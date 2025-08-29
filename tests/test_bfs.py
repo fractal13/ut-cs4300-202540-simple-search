@@ -54,18 +54,26 @@ def test_bfs_two_steps_from_goal():
             if prob.Transition(s, a) in one_step:
                 two_step_starts.append((s, a))
     assert len(two_step_starts) > 0
-    # verify BFS yields paths of length 3: start -> mid -> goal
+    # verify BFS yields a valid connected path that ends at the goal
     for s, a in two_step_starts:
         # skip trivial case where s is already goal
         if s == goal:
             continue
         prob2 = WolfGoatCabbageProblem(start=s, goal=goal)
         path = bfs(prob2)
-        assert len(path) == 3
+        assert path, f"No path found from {s} to goal"
+        # path starts at s and ends at goal
         assert path[0][0] == s and path[0][1] is None
-        mid = path[1][0]
-        assert prob.Transition(s, path[1][1]) == mid
-        assert path[2][0] == goal
+        assert path[-1][0] == goal
+        # all states in path must be valid
+        for state, _ in path:
+            assert state.is_valid(), f"Invalid state in returned path: {state}"
+        # consecutive states must be connected by the recorded action
+        for (s_prev, _), (s_next, a_next) in zip(path, path[1:]):
+                # action that produced s_next is stored with s_next (a_next)
+                assert a_next is not None
+                assert prob.Transition(s_prev, a_next) == s_next, f"Bad transition: {s_prev} + {a_next} -> {s_next}"
+
 
 
 def test_bfs_standard_start():
