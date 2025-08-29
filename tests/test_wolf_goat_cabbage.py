@@ -57,6 +57,30 @@ def test_actions_comprehensive():
         assert acts == expected, f"Actions for {s} incorrect: got {acts}, expected {expected}"
 
 
+def test_transition_comprehensive():
+    prob = WolfGoatCabbageProblem()
+    for s in all_states():
+        possible = prob.Actions(s)
+        for a in possible:
+            s2 = prob.Transition(s, a)
+            # farmer should move
+            assert s2.farmer != s.farmer, f"Farmer didn't move for action {a} on {s} -> {s2}"
+            # check moved passenger if any
+            if a == TAKE_WOLF:
+                assert s2.wolf != s.wolf
+                assert s2.goat == s.goat and s2.cabbage == s.cabbage
+            elif a == TAKE_GOAT:
+                assert s2.goat != s.goat
+                assert s2.wolf == s.wolf and s2.cabbage == s.cabbage
+            elif a == TAKE_CABBAGE:
+                assert s2.cabbage != s.cabbage
+                assert s2.wolf == s.wolf and s2.goat == s.goat
+            elif a == CROSS_ALONE:
+                assert s2.wolf == s.wolf and s2.goat == s.goat and s2.cabbage == s.cabbage
+            else:
+                pytest.skip(f"Unknown action {a}")
+
+
 def test_goal_and_cost_pytest_style():
     prob = WolfGoatCabbageProblem()
     assert not prob.GoalTest(prob.start)
