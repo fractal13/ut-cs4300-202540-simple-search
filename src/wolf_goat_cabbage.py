@@ -29,13 +29,19 @@ class WolfGoatCabbageProblem:
 
     def Actions(self, s: WolfGoatCabbageState) -> List[str]:
         # possible actions: farmer crosses alone or with wolf/goat/cabbage if on same side
-        actions: List[str] = ["cross_alone"]
+        # action constants
+        CROSS_ALONE = "cross_alone"
+        TAKE_WOLF = "take_wolf"
+        TAKE_GOAT = "take_goat"
+        TAKE_CABBAGE = "take_cabbage"
+
+        actions: List[str] = [CROSS_ALONE]
         if s.farmer == s.wolf:
-            actions.append("take_wolf")
+            actions.append(TAKE_WOLF)
         if s.farmer == s.goat:
-            actions.append("take_goat")
+            actions.append(TAKE_GOAT)
         if s.farmer == s.cabbage:
-            actions.append("take_cabbage")
+            actions.append(TAKE_CABBAGE)
         return actions
 
     def Transition(self, s: WolfGoatCabbageState, a: str) -> WolfGoatCabbageState:
@@ -43,13 +49,19 @@ class WolfGoatCabbageProblem:
         f, w, g, c = s.as_tuple()
         new_f = not f
         new_w, new_g, new_c = w, g, c
-        if a == "cross_alone":
+        # action constants (reuse same strings as in Actions)
+        CROSS_ALONE = "cross_alone"
+        TAKE_WOLF = "take_wolf"
+        TAKE_GOAT = "take_goat"
+        TAKE_CABBAGE = "take_cabbage"
+
+        if a == CROSS_ALONE:
             pass
-        elif a == "take_wolf":
+        elif a == TAKE_WOLF:
             new_w = not w
-        elif a == "take_goat":
+        elif a == TAKE_GOAT:
             new_g = not g
-        elif a == "take_cabbage":
+        elif a == TAKE_CABBAGE:
             new_c = not c
         else:
             raise ValueError(f"Unknown action: {a}")
