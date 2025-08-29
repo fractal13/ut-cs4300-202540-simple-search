@@ -35,6 +35,21 @@ def test_actions_and_transition_pytest_style():
     assert s2.farmer != s.farmer
 
 
+def test_actions_comprehensive():
+    prob = WolfGoatCabbageProblem()
+    # define expected actions based on who's on same side as farmer
+    for s in all_states():
+        acts = set(prob.Actions(s))
+        expected = {"cross_alone"}
+        if s.farmer == s.wolf:
+            expected.add("take_wolf")
+        if s.farmer == s.goat:
+            expected.add("take_goat")
+        if s.farmer == s.cabbage:
+            expected.add("take_cabbage")
+        assert acts == expected, f"Actions for {s} incorrect: got {acts}, expected {expected}"
+
+
 def test_goal_and_cost_pytest_style():
     prob = WolfGoatCabbageProblem()
     assert not prob.GoalTest(prob.start)
