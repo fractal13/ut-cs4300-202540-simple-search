@@ -66,3 +66,16 @@ def test_bfs_two_steps_from_goal():
         mid = path[1][0]
         assert prob.Transition(s, path[1][1]) == mid
         assert path[2][0] == goal
+
+
+def test_bfs_standard_start():
+    start = WolfGoatCabbageState(True, True, True, True)
+    goal = WolfGoatCabbageState(False, False, False, False)
+    prob = WolfGoatCabbageProblem(start=start, goal=goal)
+    path = bfs(prob)
+    # ensure non-empty solution
+    assert path
+    # ensure path starts at start and ends at goal
+    assert path[0][0] == start and path[0][1] is None
+    assert path[-1][0] == goal
+
