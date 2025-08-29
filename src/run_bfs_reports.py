@@ -46,6 +46,9 @@ def main():
         WolfGoatCabbageState(False, True, True, True),
     ]
     for s in starts:
+        if not s.is_valid():
+            print(f"Skipping invalid start state: {fmt_state(s)}")
+            continue
         print_report(s)
 
 
