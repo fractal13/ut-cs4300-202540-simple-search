@@ -5,7 +5,14 @@ import pytest
 
 # Quick test-time fix: make src importable
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from wolf_goat_cabbage import WolfGoatCabbageState, WolfGoatCabbageProblem
+from wolf_goat_cabbage import (
+    WolfGoatCabbageState,
+    WolfGoatCabbageProblem,
+    CROSS_ALONE,
+    TAKE_GOAT,
+    TAKE_WOLF,
+    TAKE_CABBAGE,
+)
 
 
 def all_states():
@@ -26,11 +33,11 @@ def test_actions_and_transition_pytest_style():
     prob = WolfGoatCabbageProblem()
     s = prob.start
     actions = prob.Actions(s)
-    assert "cross_alone" in actions
-    assert "take_goat" in actions
+    assert CROSS_ALONE in actions
+    assert TAKE_GOAT in actions
 
     # take goat
-    s2 = prob.Transition(s, "take_goat")
+    s2 = prob.Transition(s, TAKE_GOAT)
     assert s2.goat != s.goat
     assert s2.farmer != s.farmer
 
@@ -40,13 +47,13 @@ def test_actions_comprehensive():
     # define expected actions based on who's on same side as farmer
     for s in all_states():
         acts = set(prob.Actions(s))
-        expected = {"cross_alone"}
+        expected = {CROSS_ALONE}
         if s.farmer == s.wolf:
-            expected.add("take_wolf")
+            expected.add(TAKE_WOLF)
         if s.farmer == s.goat:
-            expected.add("take_goat")
+            expected.add(TAKE_GOAT)
         if s.farmer == s.cabbage:
-            expected.add("take_cabbage")
+            expected.add(TAKE_CABBAGE)
         assert acts == expected, f"Actions for {s} incorrect: got {acts}, expected {expected}"
 
 
