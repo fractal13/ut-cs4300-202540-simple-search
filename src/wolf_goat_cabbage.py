@@ -36,12 +36,6 @@ class WolfGoatCabbageProblem:
 
     def Actions(self, s: WolfGoatCabbageState) -> List[str]:
         # possible actions: farmer crosses alone or with wolf/goat/cabbage if on same side
-        # action constants
-        CROSS_ALONE = "cross_alone"
-        TAKE_WOLF = "take_wolf"
-        TAKE_GOAT = "take_goat"
-        TAKE_CABBAGE = "take_cabbage"
-
         actions: List[str] = [CROSS_ALONE]
         if s.farmer == s.wolf:
             actions.append(TAKE_WOLF)
