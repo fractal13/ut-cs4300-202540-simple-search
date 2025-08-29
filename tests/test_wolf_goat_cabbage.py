@@ -85,5 +85,5 @@ def test_goal_and_cost_pytest_style():
     prob = WolfGoatCabbageProblem()
     assert not prob.GoalTest(prob.start)
     assert prob.GoalTest(prob.goal)
-    c = prob.Cost(prob.start, "cross_alone", prob.goal)
+    c = prob.Cost(prob.start, CROSS_ALONE, prob.goal)
     assert c == pytest.approx(1.0)
