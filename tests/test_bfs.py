@@ -79,3 +79,16 @@ def test_bfs_standard_start():
     assert path[0][0] == start and path[0][1] is None
     assert path[-1][0] == goal
 
+
+def test_bfs_stats_returned():
+    start = WolfGoatCabbageState(True, True, True, True)
+    goal = WolfGoatCabbageState(False, False, False, False)
+    prob = WolfGoatCabbageProblem(start=start, goal=goal)
+    path, stats = bfs(prob, return_stats=True)
+    # basic assertions about stats
+    assert isinstance(stats.nodes_generated, int)
+    assert isinstance(stats.nodes_expanded, int)
+    assert isinstance(stats.max_frontier_size, int)
+    assert stats.solution_depth == len(path) - 1
+    assert stats.solution_cost is not None
+
