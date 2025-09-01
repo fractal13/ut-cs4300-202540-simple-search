@@ -63,3 +63,11 @@ class WolfGoatCabbageProblem:
 
     def Cost(self, s1: WolfGoatCabbageState, a: str, s2: WolfGoatCabbageState) -> float:
         return 1.0
+
+    def fmt_state(self, s: WolfGoatCabbageState) -> str:
+        # Format as (L/R, L/R, L/R, L/R) for farmer,wolf,goat,cabbage
+        def lr(b: bool) -> str:
+            return 'L' if b else 'R'
+
+        f, w, g, c = s.as_tuple()
+        return f"({lr(f)},{lr(w)},{lr(g)},{lr(c)})"
