@@ -117,7 +117,7 @@ def main(argv: list[str] | None = None) -> None:
             defaults = [
                 ( (3,5), 4 ),        # two-jug classic
                 ( (8,5,3), 4 ),      # three-jug example
-                ( (2,4), 3 ),        # unsolvable example
+                ( (2,4), 2 ),        # solvable example (changed from unsolvable)
             ]
             for caps, tgt in defaults:
                 print(f"Running WaterJugsProblem capacities={caps} target={tgt}")
