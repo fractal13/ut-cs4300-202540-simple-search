@@ -56,13 +56,14 @@ def print_report(start: WolfGoatCabbageState, algo: str, goal: WolfGoatCabbageSt
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="run_reports", description="Run WGC reports with BFS or IDS")
+    # make --start a global option available to both subcommands
+    parser.add_argument("--start", type=parse_start, default=None, help="Start state as 4 chars L/R (farmer,wolf,goat,cabbage). Default: runs examples")
+
     sub = parser.add_subparsers(dest="algo", required=True, help="algorithm to run")
 
     p_bfs = sub.add_parser("bfs", help="Run BFS on example starts or a provided start")
-    p_bfs.add_argument("--start", type=parse_start, default=None, help="Start state as 4 chars L/R (farmer,wolf,goat,cabbage). Default: runs examples")
 
     p_ids = sub.add_parser("ids", help="Run IDS on example starts or a provided start")
-    p_ids.add_argument("--start", type=parse_start, default=None, help="Start state as 4 chars L/R (farmer,wolf,goat,cabbage). Default: runs examples")
 
     args = parser.parse_args(argv)
 
