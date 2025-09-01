@@ -1,6 +1,6 @@
 import pytest
 
-from src.ids import depth_limited_search, IDSStats
+from simple_search.search.ids import depth_limited_search, IDSStats
 
 
 class SimpleProblem:

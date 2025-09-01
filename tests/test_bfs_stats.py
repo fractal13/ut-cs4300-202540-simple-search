@@ -1,9 +1,8 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from wolf_goat_cabbage import WolfGoatCabbageState, WolfGoatCabbageProblem
-from bfs import bfs, BFSStats  # type: ignore
+from simple_search.problems.wolf_goat_cabbage import WolfGoatCabbageState, WolfGoatCabbageProblem
+from simple_search.search.bfs import bfs, BFSStats
 
 
 def test_bfs_stats_goal_start():

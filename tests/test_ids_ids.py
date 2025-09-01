@@ -1,6 +1,6 @@
 import pytest
 
-from src.ids import ids
+from simple_search.search.ids import ids
 
 
 class ChainProblem:
