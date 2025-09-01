@@ -1,6 +1,6 @@
 ## Build / Lint / Test
 
-- Build: None (pure Python). Create virtualenv, install deps if any.
+- Build: None (pure Python). Create virtualenv, install deps if any. The virtual environment will be installed in .venv. If it is missing `make .venv` will crate it.
 - Run all tests: pytest
 - Run single test: pytest path/to/test_file.py::test_name
 - Lint: flake8 && black --check .
