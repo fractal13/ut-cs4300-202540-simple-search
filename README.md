@@ -38,10 +38,15 @@ Run IDS:
 python -m run_reports ids
 ```
 
-Specify a custom start state using `--start` with 4 characters `L` or `R` (farmer, wolf, goat, cabbage). Example:
+Specify a custom start state using `--start` with 4 characters `L` or `R` (farmer, wolf, goat, cabbage). This is a global option available at the top-level and applies to both `bfs` and `ids` subcommands.
+
+Examples:
 
 ```bash
+# run BFS on a custom start
 python -m run_reports bfs --start LLLL
+# or after installation
+run-reports ids --start RLRR
 ```
 
 ## Makefile helper
