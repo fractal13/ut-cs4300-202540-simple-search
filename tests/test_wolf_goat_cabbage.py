@@ -3,9 +3,7 @@ from pathlib import Path
 import itertools
 import pytest
 
-# Quick test-time fix: make src importable
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from wolf_goat_cabbage import (
+from simple_search.problems.wolf_goat_cabbage import (
     WolfGoatCabbageState,
     WolfGoatCabbageProblem,
     CROSS_ALONE,
