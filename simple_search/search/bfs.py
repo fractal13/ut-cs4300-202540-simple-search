@@ -24,21 +24,37 @@ class BFSStats:
 def bfs(problem, return_stats: bool = False) -> List[Tuple[Any, Optional[str]]]:
     stats = BFSStats()
     start = problem.start
-    if problem.GoalTest(start):
-        stats.solution_depth = 0
-        stats.solution_cost = 0.0
-        if return_stats:
-            return ([(start, None)], stats)
-        return [(start, None)]
 
     frontier = deque([_Node(start, None, None)])
     explored = set()
+    max_explored_size = len(explored)
     stats.max_frontier_size = max(stats.max_frontier_size, len(frontier))
 
     while frontier:
         node = frontier.popleft()
-        stats.nodes_expanded += 1
         explored.add(node.state)
+        max_explored_size = max(max_explored_size, len(explored))
+
+        if problem.GoalTest(node.state):
+            path: List[Tuple[Any, Optional[str]]] = []
+            cur: Optional[_Node] = node
+            cost = 0.0
+            while cur is not None:
+                path.append((cur.state, cur.action))
+                if cur.parent is not None:
+                    try:
+                        cost += problem.Cost(cur.parent.state, cur.action, cur.state)
+                    except Exception:
+                        cost += 1.0
+                cur = cur.parent
+            path.reverse()
+            stats.solution_depth = len(path) - 1
+            stats.solution_cost = cost
+            if return_stats:
+                return (path, stats)
+            return path
+
+        stats.nodes_expanded += 1
 
         for action in problem.Actions(node.state):
             child_state = problem.Transition(node.state, action)
@@ -53,24 +69,6 @@ def bfs(problem, return_stats: bool = False) -> List[Tuple[Any, Optional[str]]]:
             frontier.append(child)
             stats.max_frontier_size = max(stats.max_frontier_size, len(frontier))
 
-            if problem.GoalTest(child_state):
-                path: List[Tuple[Any, Optional[str]]] = []
-                cur: Optional[_Node] = child
-                cost = 0.0
-                while cur is not None:
-                    path.append((cur.state, cur.action))
-                    if cur.parent is not None:
-                        try:
-                            cost += problem.Cost(cur.parent.state, cur.action, cur.state)
-                        except Exception:
-                            cost += 1.0
-                    cur = cur.parent
-                path.reverse()
-                stats.solution_depth = len(path) - 1
-                stats.solution_cost = cost
-                if return_stats:
-                    return (path, stats)
-                return path
     if return_stats:
         return ([], stats)
     return []
