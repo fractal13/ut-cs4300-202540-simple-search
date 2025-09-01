@@ -112,8 +112,17 @@ def main(argv: list[str] | None = None) -> None:
                 print_report(prob, args.algo)
     else:
         # water jugs domain
+        # If user didn't provide capacities/target, run three default instances from docs
         if not args.capacities or args.target is None:
-            print("For domain 'wj' you must provide --capacities and --target")
+            defaults = [
+                ( (3,5), 4 ),        # two-jug classic
+                ( (8,5,3), 4 ),      # three-jug example
+                ( (2,4), 3 ),        # unsolvable example
+            ]
+            for caps, tgt in defaults:
+                print(f"Running WaterJugsProblem capacities={caps} target={tgt}")
+                prob = WaterJugsProblem(caps, tgt)
+                print_report(prob, args.algo)
             return
         try:
             caps = tuple(int(x.strip()) for x in args.capacities.split(",") if x.strip())

@@ -9,7 +9,10 @@ class WaterJugsState:
     def as_tuple(self) -> Tuple[int, ...]:
         return self.volumes
 
-    def is_valid(self, capacities: Tuple[int, ...]) -> bool:
+    def is_valid(self, capacities: Tuple[int, ...] | None = None) -> bool:
+        # If capacities provided, validate volumes against them; otherwise assume valid
+        if capacities is None:
+            return True
         return all(0 <= v <= c for v, c in zip(self.volumes, capacities))
 
 
