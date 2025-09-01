@@ -34,3 +34,8 @@ lint: $(VENV)
 clean:
 	-rm -rf $(VENV)
 	-find . -name '__pycache__' -type d -exec rm -rf {} +
+
+.PHONY: run_reports
+run_reports: $(VENV)
+	$(VENV)/bin/python -m run_reports bfs || true
+	$(VENV)/bin/python -m run_reports ids || true
